@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HTTP Request-Response | The Kinetic Network</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-lowest": "#060e20",
+                        "on-tertiary-fixed-variant": "#005321",
+                        "tertiary": "#4ae176",
+                        "surface-variant": "#2d3449",
+                        "primary": "#7bd0ff",
+                        "inverse-surface": "#dae2fd",
+                        "on-secondary": "#213145",
+                        "on-secondary-container": "#a9bad3",
+                        "on-secondary-fixed": "#0b1c30",
+                        "surface-container": "#171f33",
+                        "on-primary-fixed-variant": "#004c69",
+                        "background": "#0b1326",
+                        "tertiary-container": "#001d07",
+                        "surface-container-high": "#222a3d",
+                        "on-primary-container": "#008abb",
+                        "tertiary-fixed-dim": "#4ae176",
+                        "on-primary-fixed": "#001e2c",
+                        "on-tertiary-fixed": "#002109",
+                        "on-surface-variant": "#c6c6cd",
+                        "primary-container": "#001a27",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-background": "#dae2fd",
+                        "secondary-container": "#3a4a5f",
+                        "tertiary-fixed": "#6bff8f",
+                        "outline": "#909097",
+                        "surface-container-highest": "#2d3449",
+                        "on-tertiary": "#003915",
+                        "primary-fixed": "#c4e7ff",
+                        "on-tertiary-container": "#009542",
+                        "surface-bright": "#31394d",
+                        "inverse-primary": "#00668a",
+                        "surface-dim": "#0b1326",
+                        "inverse-on-surface": "#283044",
+                        "on-error": "#690005",
+                        "error": "#ffb4ab",
+                        "secondary": "#b7c8e1",
+                        "surface": "#0b1326",
+                        "on-surface": "#dae2fd",
+                        "on-error-container": "#ffdad6",
+                        "on-primary": "#00354a",
+                        "outline-variant": "#45464d",
+                        "surface-container-low": "#131b2e",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-tint": "#7bd0ff",
+                        "primary-fixed-dim": "#7bd0ff",
+                        "secondary-fixed-dim": "#b7c8e1"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                    },
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .monospaced { font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", monospace; }
+        .glass-panel {
+            background: rgba(45, 52, 73, 0.6);
+            backdrop-filter: blur(12px);
+        }
+        .simulation-gradient {
+            background: linear-gradient(135deg, #7bd0ff 0%, #008abb 100%);
+        }
+        /* Custom scrollbar for terminal/details */
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #2d3449; border-radius: 2px; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary/30">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-6 py-3 bg-[#0b1326] fixed top-0 z-50">
+<div class="flex items-center gap-8">
+<span class="text-xl font-black text-[#7bd0ff] tracking-tighter uppercase font-['Space_Grotesk']">The Kinetic Network</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-slate-400 font-medium font-['Space_Grotesk'] hover:text-white transition-colors duration-200" href="#">Docs</a>
+<a class="text-slate-400 font-medium font-['Space_Grotesk'] hover:text-white transition-colors duration-200" href="#">Help</a>
+<a class="text-slate-400 font-medium font-['Space_Grotesk'] hover:text-white transition-colors duration-200" href="#">Community</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-400 hover:text-white transition-colors duration-200 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="text-slate-400 hover:text-white transition-colors duration-200 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="flex flex-col h-full fixed left-0 top-0 z-40 bg-[#131b2e] w-64 pt-16">
+<div class="p-6">
+<div class="flex items-center gap-3 mb-1">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-primary text-sm">hub</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-white font-headline leading-tight">Lab Explorer</h2>
+<p class="text-[10px] text-primary/70 uppercase tracking-widest font-medium">Active: Application Layer</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<div class="group flex items-center px-3 py-2 text-slate-400 hover:bg-[#171f33]/50 hover:translate-x-1 transition-all duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined mr-3">foundation</span>
+<span class="font-['Inter'] text-sm font-medium uppercase tracking-widest">Fundamentals</span>
+</div>
+<div class="group flex items-center px-3 py-2 text-slate-400 hover:bg-[#171f33]/50 hover:translate-x-1 transition-all duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined mr-3">router</span>
+<span class="font-['Inter'] text-sm font-medium uppercase tracking-widest">Routing</span>
+</div>
+<div class="group flex items-center px-3 py-2 text-slate-400 hover:bg-[#171f33]/50 hover:translate-x-1 transition-all duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined mr-3">swap_calls</span>
+<span class="font-['Inter'] text-sm font-medium uppercase tracking-widest">Transport</span>
+</div>
+<!-- Active Tab -->
+<div class="flex items-center px-3 py-2 bg-[#171f33] text-[#7bd0ff] border-r-4 border-[#7bd0ff] cursor-pointer">
+<span class="material-symbols-outlined mr-3">language</span>
+<span class="font-['Inter'] text-sm font-medium uppercase tracking-widest">Application</span>
+</div>
+<div class="group flex items-center px-3 py-2 text-slate-400 hover:bg-[#171f33]/50 hover:translate-x-1 transition-all duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined mr-3">layers</span>
+<span class="font-['Inter'] text-sm font-medium uppercase tracking-widest">Network Layer</span>
+</div>
+<div class="group flex items-center px-3 py-2 text-slate-400 hover:bg-[#171f33]/50 hover:translate-x-1 transition-all duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined mr-3">security</span>
+<span class="font-['Inter'] text-sm font-medium uppercase tracking-widest">Security</span>
+</div>
+<div class="group flex items-center px-3 py-2 text-slate-400 hover:bg-[#171f33]/50 hover:translate-x-1 transition-all duration-200 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined mr-3">style</span>
+<span class="font-['Inter'] text-sm font-medium uppercase tracking-widest">Flashcards</span>
+</div>
+</nav>
+<div class="p-4 bg-surface-container-low">
+<button class="w-full py-2 bg-primary/10 text-primary border border-primary/20 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-primary/20 transition-all active:scale-[0.98]">
+                Start Simulation
+            </button>
+</div>
+<div class="px-3 py-4 space-y-1">
+<div class="flex items-center px-3 py-2 text-slate-400 hover:bg-[#171f33]/50 transition-all cursor-pointer rounded-lg">
+<span class="material-symbols-outlined mr-3 text-sm">settings</span>
+<span class="text-xs font-medium uppercase tracking-widest">Settings</span>
+</div>
+<div class="flex items-center px-3 py-2 text-slate-400 hover:bg-[#171f33]/50 transition-all cursor-pointer rounded-lg">
+<span class="material-symbols-outlined mr-3 text-sm">logout</span>
+<span class="text-xs font-medium uppercase tracking-widest">Logout</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Stage -->
+<main class="ml-64 pt-16 min-h-screen flex flex-col">
+<!-- Header Section -->
+<section class="p-12 pb-6">
+<h1 class="text-[3.5rem] font-black font-headline text-on-background leading-none tracking-tighter mb-2">HTTP Request-Response</h1>
+<div class="flex items-center gap-4">
+<span class="px-3 py-1 bg-surface-container-highest text-primary text-[0.7rem] font-bold uppercase tracking-[0.2em] rounded border border-outline-variant/20">Lab ID: APP-042</span>
+<span class="text-on-surface-variant text-xs font-medium">Topic: Application Layer • Ports 80/443</span>
+</div>
+</section>
+<!-- Lab Layout: Asymmetric Bento Grid -->
+<div class="flex-1 grid grid-cols-12 gap-6 p-12 pt-0">
+<!-- Simulation Canvas (8 Columns) -->
+<div class="col-span-8 flex flex-col gap-6">
+<!-- The Main Stage -->
+<div class="relative bg-surface-container rounded-xl overflow-hidden min-h-[500px] border border-outline-variant/10 shadow-2xl">
+<!-- Grid Background Overlay -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle, #7bd0ff 1px, transparent 1px); background-size: 32px 32px;"></div>
+<!-- Network Path SVG (Static Base) -->
+<div class="absolute inset-0 flex items-center justify-center p-20">
+<div class="w-full h-px bg-surface-container-highest relative">
+<div class="absolute -top-1 left-0 w-2 h-2 rounded-full bg-primary/40"></div>
+<div class="absolute -top-1 right-0 w-2 h-2 rounded-full bg-primary/40"></div>
+<!-- Animated Path Glow -->
+<div class="absolute inset-0 bg-primary/20 blur-sm"></div>
+</div>
+</div>
+<!-- Client Node -->
+<div class="absolute left-20 top-1/2 -translate-y-1/2 flex flex-col items-center gap-4">
+<div class="w-24 h-24 rounded-2xl bg-surface-container-high flex items-center justify-center shadow-lg border border-primary/10 group hover:border-primary/40 transition-all">
+<span class="material-symbols-outlined text-4xl text-primary">laptop_mac</span>
+</div>
+<div class="text-center">
+<p class="font-headline font-bold text-sm tracking-tight text-white">Client Browser</p>
+<p class="monospaced text-[10px] text-on-surface-variant">192.168.1.104</p>
+</div>
+</div>
+<!-- Server Node -->
+<div class="absolute right-20 top-1/2 -translate-y-1/2 flex flex-col items-center gap-4">
+<div class="relative w-24 h-24 rounded-2xl bg-surface-container-high flex items-center justify-center shadow-lg border border-tertiary/10 group hover:border-tertiary/40 transition-all">
+<!-- Port Label Floating -->
+<div class="absolute -top-3 -right-3 px-2 py-1 bg-surface-container-highest rounded text-[10px] monospaced text-tertiary border border-tertiary/30">PORT 443</div>
+<span class="material-symbols-outlined text-4xl text-tertiary">dns</span>
+</div>
+<div class="text-center">
+<p class="font-headline font-bold text-sm tracking-tight text-white">Application Server</p>
+<p class="monospaced text-[10px] text-on-surface-variant">104.22.1.201</p>
+</div>
+</div>
+<!-- Animated Packet (Floating) -->
+<div class="absolute left-[35%] top-[45%] translate-y-1/2 flex flex-col items-center gap-2 group cursor-pointer">
+<div class="px-4 py-2 bg-primary/20 backdrop-blur-md border border-primary/40 rounded shadow-xl flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-sm">mail</span>
+<span class="monospaced text-[10px] font-bold text-primary">HTTP GET /index.html</span>
+</div>
+<div class="h-12 w-px bg-gradient-to-b from-primary to-transparent opacity-50"></div>
+</div>
+<!-- Status Indicator (Bottom Right) -->
+<div class="absolute bottom-6 right-6 flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary animate-pulse shadow-[0_0_10px_rgba(74,225,118,0.5)]"></div>
+<span class="text-[10px] font-black uppercase tracking-[0.1em] text-on-surface-variant">Network Sync: Active</span>
+</div>
+</div>
+<!-- Simulation Controls (Floating/Glass) -->
+<div class="glass-panel p-4 rounded-xl border border-outline-variant/10 flex items-center justify-between shadow-xl">
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 rounded-md bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center hover:translate-y-[-2px] transition-all active:scale-95 shadow-md">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+<button class="w-10 h-10 rounded-md bg-secondary-container text-on-secondary-container flex items-center justify-center hover:translate-y-[-2px] transition-all active:scale-95">
+<span class="material-symbols-outlined">pause</span>
+</button>
+<button class="w-10 h-10 rounded-md bg-error-container text-on-error-container flex items-center justify-center hover:translate-y-[-2px] transition-all active:scale-95">
+<span class="material-symbols-outlined">refresh</span>
+</button>
+</div>
+<div class="h-8 w-px bg-outline-variant/20 mx-2"></div>
+<div class="flex-1 px-8 flex flex-col gap-1">
+<div class="flex justify-between items-center">
+<span class="text-[9px] font-bold uppercase tracking-widest text-on-surface-variant">Simulation Speed</span>
+<span class="monospaced text-[10px] text-primary">1.5x</span>
+</div>
+<input class="w-full h-1 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary" type="range"/>
+</div>
+<div class="h-8 w-px bg-outline-variant/20 mx-2"></div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<select class="bg-surface-container-highest border-none text-xs font-bold font-headline uppercase tracking-tight py-2 px-4 rounded-lg focus:ring-1 focus:ring-primary appearance-none cursor-pointer pr-10">
+<option>HTTP GET Request</option>
+<option>HTTP POST Request</option>
+<option>HTTP DELETE Request</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-primary text-sm">expand_more</span>
+</div>
+<button class="px-6 py-2 simulation-gradient text-on-primary-fixed font-black text-xs uppercase tracking-[0.1em] rounded-lg shadow-lg active:scale-95 transition-all">
+                            Send Request
+                        </button>
+</div>
+</div>
+</div>
+<!-- Side Panels (4 Columns) -->
+<div class="col-span-4 flex flex-col gap-6">
+<!-- Packet Detail View (Top) -->
+<div class="bg-surface-container-low rounded-xl flex flex-col h-[400px] border border-outline-variant/5">
+<div class="p-4 bg-surface-container flex items-center justify-between rounded-t-xl border-b border-outline-variant/10">
+<span class="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Packet Inspector</span>
+<span class="material-symbols-outlined text-sm text-on-surface-variant cursor-pointer">close</span>
+</div>
+<div class="p-5 flex-1 overflow-y-auto custom-scroll monospaced text-[11px] space-y-4">
+<div class="space-y-1">
+<p class="text-on-surface-variant uppercase font-bold text-[9px] tracking-widest mb-2">Request Headers</p>
+<div class="flex justify-between py-1 border-b border-outline-variant/5">
+<span class="text-primary/70">Method:</span>
+<span class="text-on-surface">GET</span>
+</div>
+<div class="flex justify-between py-1 border-b border-outline-variant/5">
+<span class="text-primary/70">Path:</span>
+<span class="text-on-surface">/api/v1/network/status</span>
+</div>
+<div class="flex justify-between py-1 border-b border-outline-variant/5">
+<span class="text-primary/70">Host:</span>
+<span class="text-on-surface">kinetic.net</span>
+</div>
+<div class="flex justify-between py-1 border-b border-outline-variant/5">
+<span class="text-primary/70">User-Agent:</span>
+<span class="text-on-surface">KineticBrowser/2.0</span>
+</div>
+<div class="flex justify-between py-1 border-b border-outline-variant/5">
+<span class="text-primary/70">Accept:</span>
+<span class="text-on-surface">application/json</span>
+</div>
+</div>
+<div class="space-y-1 pt-4 opacity-50">
+<p class="text-on-surface-variant uppercase font-bold text-[9px] tracking-widest mb-2">Payload (Body)</p>
+<div class="p-3 bg-surface-container-lowest rounded italic text-on-surface-variant">
+                                { "request_id": "8x-341", "auth_token": "null" }
+                            </div>
+</div>
+</div>
+</div>
+<!-- Explanation Panel (Bottom) -->
+<div class="bg-surface-container rounded-xl p-6 border border-outline-variant/10">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-6 h-6 rounded bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xs">info</span>
+</div>
+<h3 class="font-headline font-bold text-base tracking-tight text-white uppercase tracking-widest text-xs">Architecture Basics</h3>
+</div>
+<div class="space-y-4 text-xs leading-relaxed text-on-surface-variant font-medium">
+<p>The <span class="text-white font-bold">Client-Server</span> architecture is the foundation of the modern web. The client (your browser) initiates a conversation by sending a <span class="text-primary">Request</span> to a specific port.</p>
+<div class="p-4 bg-surface-container-low rounded-lg space-y-3">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-tertiary text-sm mt-0.5">check_circle</span>
+<div>
+<p class="text-white font-bold mb-0.5">Port 80 (HTTP)</p>
+<p class="text-[10px]">Unencrypted, clear-text data transfer.</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5">verified_user</span>
+<div>
+<p class="text-white font-bold mb-0.5">Port 443 (HTTPS)</p>
+<p class="text-[10px]">Encrypted communication using TLS/SSL.</p>
+</div>
+</div>
+</div>
+<p>Every response includes a <span class="text-white font-bold">Status Code</span> (e.g., 200 OK, 404 Not Found) informing the client of the outcome.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Terminal Output (Bottom Drawer-like Area) -->
+<footer class="mt-auto bg-surface-container-lowest border-t border-outline-variant/10 p-4">
+<div class="max-w-[1400px] mx-auto flex items-center gap-6">
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container rounded text-[10px] font-black uppercase tracking-widest text-primary">
+<span class="material-symbols-outlined text-[12px]">terminal</span> Log
+                </div>
+<div class="flex-1 monospaced text-[10px] text-on-surface-variant flex gap-8">
+<div class="flex gap-2">
+<span class="text-tertiary">[14:02:11]</span>
+<span>DNS Lookup for kinetic.net ... SUCCESS</span>
+</div>
+<div class="flex gap-2">
+<span class="text-tertiary">[14:02:12]</span>
+<span>TCP Three-Way Handshake ... ESTABLISHED</span>
+</div>
+<div class="flex gap-2">
+<span class="text-primary">[14:02:13]</span>
+<span class="animate-pulse">Awaiting Server Response (ACK Received)</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5 px-2 py-0.5 bg-tertiary/10 rounded border border-tertiary/20">
+<span class="w-1 h-1 rounded-full bg-tertiary"></span>
+<span class="text-[9px] monospaced text-tertiary font-bold">200 OK</span>
+</div>
+<button class="text-[10px] text-on-surface-variant hover:text-white uppercase tracking-widest font-black transition-colors">Clear Console</button>
+</div>
+</div>
+</footer>
+</main>
+<!-- Visual Decorative Image Elements (Bento Accents) -->
+<div class="fixed bottom-12 left-8 pointer-events-none opacity-20">
+<div class="w-64 h-64 bg-primary/20 blur-[120px] rounded-full"></div>
+</div>
+</body></html>

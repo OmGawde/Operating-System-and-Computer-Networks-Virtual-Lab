@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Kinetic Network | OSI Model Simulation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-lowest": "#060e20",
+              "on-tertiary-fixed-variant": "#005321",
+              "tertiary": "#4ae176",
+              "surface-variant": "#2d3449",
+              "primary": "#7bd0ff",
+              "inverse-surface": "#dae2fd",
+              "on-secondary": "#213145",
+              "on-secondary-container": "#a9bad3",
+              "on-secondary-fixed": "#0b1c30",
+              "surface-container": "#171f33",
+              "on-primary-fixed-variant": "#004c69",
+              "background": "#0b1326",
+              "tertiary-container": "#001d07",
+              "surface-container-high": "#222a3d",
+              "on-primary-container": "#008abb",
+              "tertiary-fixed-dim": "#4ae176",
+              "on-primary-fixed": "#001e2c",
+              "on-tertiary-fixed": "#002109",
+              "on-surface-variant": "#c6c6cd",
+              "primary-container": "#001a27",
+              "on-secondary-fixed-variant": "#38485d",
+              "on-background": "#dae2fd",
+              "secondary-container": "#3a4a5f",
+              "tertiary-fixed": "#6bff8f",
+              "outline": "#909097",
+              "surface-container-highest": "#2d3449",
+              "on-tertiary": "#003915",
+              "primary-fixed": "#c4e7ff",
+              "on-tertiary-container": "#009542",
+              "surface-bright": "#31394d",
+              "inverse-primary": "#00668a",
+              "surface-dim": "#0b1326",
+              "inverse-on-surface": "#283044",
+              "on-error": "#690005",
+              "error": "#ffb4ab",
+              "secondary": "#b7c8e1",
+              "surface": "#0b1326",
+              "on-surface": "#dae2fd",
+              "on-error-container": "#ffdad6",
+              "on-primary": "#00354a",
+              "outline-variant": "#45464d",
+              "surface-container-low": "#131b2e",
+              "error-container": "#93000a",
+              "secondary-fixed": "#d3e4fe",
+              "surface-tint": "#7bd0ff",
+              "primary-fixed-dim": "#7bd0ff",
+              "secondary-fixed-dim": "#b7c8e1"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Space Grotesk"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(45, 52, 73, 0.6);
+            backdrop-filter: blur(12px);
+        }
+        .mono { font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace; }
+        .osi-grid { grid-template-columns: 320px 1fr 380px; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0b1326; }
+        ::-webkit-scrollbar-thumb { background: #2d3449; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar Shell -->
+<header class="flex justify-between items-center w-full px-6 py-3 bg-[#0b1326] fixed top-0 z-50">
+<div class="flex items-center gap-8">
+<span class="text-xl font-black text-[#7bd0ff] tracking-tighter uppercase font-headline">The Kinetic Network</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-[#7bd0ff] border-b-2 border-[#7bd0ff] pb-1 font-headline font-bold tracking-tight text-sm uppercase" href="#">Fundamentals</a>
+<a class="text-slate-400 font-medium font-headline hover:text-white transition-colors duration-200 text-sm uppercase" href="#">Docs</a>
+<a class="text-slate-400 font-medium font-headline hover:text-white transition-colors duration-200 text-sm uppercase" href="#">Help</a>
+<a class="text-slate-400 font-medium font-headline hover:text-white transition-colors duration-200 text-sm uppercase" href="#">Community</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-400 hover:text-white transition-colors active:scale-95 transition-transform">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="text-slate-400 hover:text-white transition-colors active:scale-95 transition-transform">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar Shell -->
+<aside class="flex flex-col h-full fixed left-0 top-0 z-40 bg-[#131b2e] w-64 pt-20 shadow-2xl shadow-black/20">
+<div class="px-6 mb-8">
+<h2 class="text-lg font-bold text-white font-headline">Lab Explorer</h2>
+<p class="text-[10px] text-[#7bd0ff] font-medium uppercase tracking-widest mt-1">Active: Routing Protocols</p>
+</div>
+<nav class="flex-1 space-y-1">
+<div class="px-4 py-3 bg-[#171f33] text-[#7bd0ff] border-r-4 border-[#7bd0ff] flex items-center gap-3 cursor-pointer group">
+<span class="material-symbols-outlined">hub</span>
+<span class="font-['Inter'] text-xs font-medium uppercase tracking-widest">Fundamentals</span>
+</div>
+<div class="px-4 py-3 text-slate-400 hover:bg-[#171f33]/50 flex items-center gap-3 cursor-pointer group transition-all duration-200 hover:translate-x-1">
+<span class="material-symbols-outlined">router</span>
+<span class="font-['Inter'] text-xs font-medium uppercase tracking-widest">Routing</span>
+</div>
+<div class="px-4 py-3 text-slate-400 hover:bg-[#171f33]/50 flex items-center gap-3 cursor-pointer group transition-all duration-200 hover:translate-x-1">
+<span class="material-symbols-outlined">swap_calls</span>
+<span class="font-['Inter'] text-xs font-medium uppercase tracking-widest">Transport</span>
+</div>
+<div class="px-4 py-3 text-slate-400 hover:bg-[#171f33]/50 flex items-center gap-3 cursor-pointer group transition-all duration-200 hover:translate-x-1">
+<span class="material-symbols-outlined">language</span>
+<span class="font-['Inter'] text-xs font-medium uppercase tracking-widest">Application</span>
+</div>
+<div class="px-4 py-3 text-slate-400 hover:bg-[#171f33]/50 flex items-center gap-3 cursor-pointer group transition-all duration-200 hover:translate-x-1">
+<span class="material-symbols-outlined">layers</span>
+<span class="font-['Inter'] text-xs font-medium uppercase tracking-widest">Network Layer</span>
+</div>
+<div class="px-4 py-3 text-slate-400 hover:bg-[#171f33]/50 flex items-center gap-3 cursor-pointer group transition-all duration-200 hover:translate-x-1">
+<span class="material-symbols-outlined">security</span>
+<span class="font-['Inter'] text-xs font-medium uppercase tracking-widest">Security</span>
+</div>
+<div class="px-4 py-3 text-slate-400 hover:bg-[#171f33]/50 flex items-center gap-3 cursor-pointer group transition-all duration-200 hover:translate-x-1">
+<span class="material-symbols-outlined">style</span>
+<span class="font-['Inter'] text-xs font-medium uppercase tracking-widest">Flashcards</span>
+</div>
+</nav>
+<div class="p-6">
+<button class="w-full py-3 bg-gradient-to-br from-primary to-[#008abb] text-on-primary font-bold text-xs uppercase tracking-widest rounded transition-transform active:scale-95 shadow-lg shadow-primary/20">
+                Start Simulation
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 h-screen overflow-hidden grid osi-grid">
+<!-- LEFT: Layer Stack -->
+<section class="bg-surface-container-low p-6 overflow-y-auto border-r border-white/5">
+<div class="mb-8">
+<span class="text-[10px] font-headline font-bold text-primary uppercase tracking-[0.2em]">Framework</span>
+<h1 class="text-2xl font-black font-headline text-white mt-1 leading-none">OSI STACK</h1>
+</div>
+<div class="space-y-3">
+<!-- Layer 7 -->
+<div class="group relative bg-surface-container-highest p-4 rounded border-l-4 border-primary transition-all cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="mono text-[10px] text-primary">L7</span>
+<span class="material-symbols-outlined text-sm text-primary">language</span>
+</div>
+<h3 class="font-headline font-bold text-white text-sm uppercase mt-1 tracking-tight">Application</h3>
+<p class="text-[11px] text-on-secondary-container mt-1">Network Process to Application</p>
+</div>
+<!-- Layer 6 -->
+<div class="group relative bg-surface-container p-4 rounded hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="mono text-[10px] text-slate-500">L6</span>
+<span class="material-symbols-outlined text-sm text-slate-500">lock</span>
+</div>
+<h3 class="font-headline font-bold text-slate-300 text-sm uppercase mt-1 tracking-tight">Presentation</h3>
+<p class="text-[11px] text-on-secondary-container/60 mt-1">Data Representation &amp; Encryption</p>
+</div>
+<!-- Layer 5 -->
+<div class="group relative bg-surface-container p-4 rounded hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="mono text-[10px] text-slate-500">L5</span>
+<span class="material-symbols-outlined text-sm text-slate-500">forum</span>
+</div>
+<h3 class="font-headline font-bold text-slate-300 text-sm uppercase mt-1 tracking-tight">Session</h3>
+<p class="text-[11px] text-on-secondary-container/60 mt-1">Interhost Communication</p>
+</div>
+<!-- Layer 4 -->
+<div class="group relative bg-surface-container p-4 rounded hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="mono text-[10px] text-slate-500">L4</span>
+<span class="material-symbols-outlined text-sm text-slate-500">swap_calls</span>
+</div>
+<h3 class="font-headline font-bold text-slate-300 text-sm uppercase mt-1 tracking-tight">Transport</h3>
+<p class="text-[11px] text-on-secondary-container/60 mt-1">End-to-End Connections &amp; Reliability</p>
+</div>
+<!-- Layer 3 -->
+<div class="group relative bg-surface-container p-4 rounded hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="mono text-[10px] text-slate-500">L3</span>
+<span class="material-symbols-outlined text-sm text-slate-500">router</span>
+</div>
+<h3 class="font-headline font-bold text-slate-300 text-sm uppercase mt-1 tracking-tight">Network</h3>
+<p class="text-[11px] text-on-secondary-container/60 mt-1">Path Determination &amp; IP (Logical Addressing)</p>
+</div>
+<!-- Layer 2 -->
+<div class="group relative bg-surface-container p-4 rounded hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="mono text-[10px] text-slate-500">L2</span>
+<span class="material-symbols-outlined text-sm text-slate-500">settings_ethernet</span>
+</div>
+<h3 class="font-headline font-bold text-slate-300 text-sm uppercase mt-1 tracking-tight">Data Link</h3>
+<p class="text-[11px] text-on-secondary-container/60 mt-1">MAC &amp; LLC (Physical Addressing)</p>
+</div>
+<!-- Layer 1 -->
+<div class="group relative bg-surface-container p-4 rounded hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="mono text-[10px] text-slate-500">L1</span>
+<span class="material-symbols-outlined text-sm text-slate-500">bolt</span>
+</div>
+<h3 class="font-headline font-bold text-slate-300 text-sm uppercase mt-1 tracking-tight">Physical</h3>
+<p class="text-[11px] text-on-secondary-container/60 mt-1">Media, Signal and Binary Transmission</p>
+</div>
+</div>
+</section>
+<!-- CENTER: Simulation Stage -->
+<section class="bg-surface-container flex flex-col relative">
+<!-- Header Status -->
+<div class="p-8 flex justify-between items-start">
+<div>
+<h2 class="text-4xl font-black font-headline text-white tracking-tighter uppercase">Packet Journey</h2>
+<p class="text-slate-400 mt-2 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+                        Status: <span class="text-tertiary uppercase font-bold text-xs">Simulating Application Layer</span>
+</p>
+</div>
+<div class="flex gap-2">
+<div class="px-3 py-1 rounded bg-primary/10 border border-primary/20">
+<span class="text-[10px] text-primary font-bold uppercase tracking-widest">Protocol: HTTPS</span>
+</div>
+<div class="px-3 py-1 rounded bg-surface-container-highest border border-white/5">
+<span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">MTU: 1500</span>
+</div>
+</div>
+</div>
+<!-- Simulation SVG Canvas -->
+<div class="flex-1 flex flex-col items-center justify-center p-12 relative">
+<!-- Data Packet Visual -->
+<div class="relative w-80 h-48 flex items-center justify-center">
+<!-- The Packet Core -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent rounded-xl border-2 border-primary/30 flex flex-col items-center justify-center overflow-hidden">
+<div class="w-full bg-primary/20 py-1 px-4 border-b border-primary/30 flex justify-between items-center">
+<span class="text-[9px] font-bold text-primary uppercase">Encapsulation</span>
+<span class="mono text-[9px] text-primary/60">0x4F5349</span>
+</div>
+<div class="flex-1 flex flex-col items-center justify-center gap-2">
+<span class="material-symbols-outlined text-5xl text-primary" style="font-variation-settings: 'FILL' 1;">package_2</span>
+<div class="px-4 py-1 bg-surface-container-lowest rounded-full border border-primary/20">
+<span class="text-xs font-bold text-white mono uppercase tracking-widest">DATA_SEGMENT</span>
+</div>
+</div>
+<div class="w-full h-1 bg-primary/10">
+<div class="w-1/3 h-full bg-primary shadow-[0_0_10px_#7bd0ff]"></div>
+</div>
+</div>
+<!-- Floating Metadata Labels (Encapsulation Steps) -->
+<div class="absolute -top-12 left-0 right-0 flex justify-center">
+<div class="glass-panel px-4 py-2 rounded-full border border-white/10 flex items-center gap-3">
+<span class="text-[10px] font-bold text-tertiary uppercase">Encap Step</span>
+<div class="h-4 w-px bg-white/10"></div>
+<span class="text-xs text-white mono">PDU: Data</span>
+</div>
+</div>
+</div>
+<!-- Simulation Path Visualizer -->
+<div class="mt-20 w-full max-w-xl h-24 relative flex items-center justify-between">
+<div class="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent top-1/2"></div>
+<div class="relative z-10 w-10 h-10 rounded-full bg-surface-container-highest border border-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-lg">computer</span>
+</div>
+<div class="relative z-10 w-4 h-4 rounded-full bg-primary shadow-[0_0_15px_#7bd0ff]"></div>
+<div class="relative z-10 w-10 h-10 rounded-full bg-surface-container-highest border border-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-500 text-lg">router</span>
+</div>
+<div class="relative z-10 w-10 h-10 rounded-full bg-surface-container-highest border border-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-500 text-lg">cloud</span>
+</div>
+<div class="relative z-10 w-10 h-10 rounded-full bg-surface-container-highest border border-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-500 text-lg">dns</span>
+</div>
+</div>
+</div>
+<!-- Simulation Controls (Glassmorphism) -->
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 glass-panel p-2 rounded-xl flex items-center gap-4 border border-white/10 shadow-2xl">
+<div class="flex items-center gap-1">
+<button class="p-3 bg-secondary-container text-on-secondary-container rounded-lg hover:bg-secondary-container/80 transition-all active:scale-95">
+<span class="material-symbols-outlined">skip_previous</span>
+</button>
+<button class="p-3 bg-tertiary-fixed text-on-tertiary-fixed rounded-lg hover:translate-y-[-2px] transition-all active:scale-95 shadow-lg shadow-tertiary/20">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+<button class="p-3 bg-secondary-container text-on-secondary-container rounded-lg hover:bg-secondary-container/80 transition-all active:scale-95">
+<span class="material-symbols-outlined">pause</span>
+</button>
+<button class="p-3 bg-error-container text-on-error-container rounded-lg hover:bg-error-container/80 transition-all active:scale-95">
+<span class="material-symbols-outlined">replay</span>
+</button>
+</div>
+<div class="h-10 w-px bg-white/10"></div>
+<div class="px-4 flex flex-col gap-1 w-48">
+<div class="flex justify-between items-center">
+<span class="text-[9px] font-bold text-slate-400 uppercase">Sim Speed</span>
+<span class="text-[9px] font-bold text-primary mono">1.5x</span>
+</div>
+<input class="w-full h-1 bg-surface-container-lowest rounded-lg appearance-none cursor-pointer accent-primary" max="3" min="0.5" step="0.1" type="range" value="1.5"/>
+</div>
+</div>
+</section>
+<!-- RIGHT: Information & Logic -->
+<section class="bg-surface-container-low p-8 overflow-y-auto border-l border-white/5 flex flex-col">
+<div class="mb-10">
+<span class="text-[10px] font-headline font-bold text-primary uppercase tracking-[0.2em]">Contextual Inspector</span>
+<h2 class="text-xl font-bold font-headline text-white mt-2 uppercase tracking-tight">Layer Details</h2>
+</div>
+<div class="flex-1 space-y-8">
+<!-- Dynamic Content Card -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-white/5 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-white">language</span>
+</div>
+<h4 class="text-primary font-headline font-bold uppercase tracking-widest text-xs">Application Layer</h4>
+<p class="text-white font-medium text-lg mt-2 leading-tight">Interaction between software and user.</p>
+<div class="mt-6 space-y-4">
+<div class="flex flex-col gap-1">
+<span class="text-[10px] text-slate-500 uppercase font-bold">Process</span>
+<p class="text-sm text-on-secondary-container">Identifies communication partners and synchronizes communication.</p>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[10px] text-slate-500 uppercase font-bold">Protocols</span>
+<div class="flex flex-wrap gap-2 mt-1">
+<span class="px-2 py-0.5 bg-surface-container text-xs text-slate-300 rounded mono border border-white/5">HTTP/S</span>
+<span class="px-2 py-0.5 bg-surface-container text-xs text-slate-300 rounded mono border border-white/5">DNS</span>
+<span class="px-2 py-0.5 bg-surface-container text-xs text-slate-300 rounded mono border border-white/5">FTP</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Technical Specs Panel -->
+<div class="space-y-4">
+<div class="flex justify-between items-end border-b border-white/5 pb-2">
+<h5 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Protocol Data Unit (PDU)</h5>
+<span class="text-xs text-primary font-bold uppercase">Data</span>
+</div>
+<!-- Encap Flow Mini-Diagram -->
+<div class="bg-surface-container-highest/40 p-4 rounded-lg space-y-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">add</span>
+</div>
+<div>
+<p class="text-xs font-bold text-white uppercase">Encapsulation Trace</p>
+<p class="text-[10px] text-slate-400">Appending Headers/Trailers</p>
+</div>
+</div>
+<div class="space-y-1 pl-11 border-l border-white/10 ml-4">
+<div class="flex justify-between text-[10px] mono py-1">
+<span class="text-slate-500">Source Port</span>
+<span class="text-tertiary">443</span>
+</div>
+<div class="flex justify-between text-[10px] mono py-1">
+<span class="text-slate-500">Dest Port</span>
+<span class="text-tertiary">51203</span>
+</div>
+<div class="flex justify-between text-[10px] mono py-1">
+<span class="text-slate-500">Sequence</span>
+<span class="text-tertiary">0021-X9</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Pro-Tip Card -->
+<div class="mt-auto bg-gradient-to-br from-[#171f33] to-[#0b1326] p-6 rounded-xl border border-primary/10">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-sm">lightbulb</span>
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest">Lab Insight</span>
+</div>
+<p class="text-xs text-slate-300 leading-relaxed italic">
+                        "The Application layer is the only layer that does not provide services to any other OSI layer, but only to applications outside the OSI model."
+                    </p>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Action Button (FAB) Suppression check: Active on Fundamental Hub -->
+<!-- Not rendering on detailed simulation as per instructions -->
+</body></html>

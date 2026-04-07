@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+@theme {
+  --color-surface-container-lowest: #060e20;
+  --color-on-tertiary-fixed-variant: #005321;
+  --color-tertiary: #4ae176;
+  --color-surface-variant: #2d3449;
+  --color-primary: #7bd0ff;
+  --color-inverse-surface: #dae2fd;
+  --color-on-secondary: #213145;
+  --color-on-secondary-container: #a9bad3;
+  --color-on-secondary-fixed: #0b1c30;
+  --color-surface-container: #171f33;
+  --color-on-primary-fixed-variant: #004c69;
+  --color-background: #0b1326;
+  --color-tertiary-container: #001d07;
+  --color-surface-container-high: #222a3d;
+  --color-on-primary-container: #008abb;
+  --color-tertiary-fixed-dim: #4ae176;
+  --color-on-primary-fixed: #001e2c;
+  --color-on-tertiary-fixed: #002109;
+  --color-on-surface-variant: #c6c6cd;
+  --color-primary-container: #001a27;
+  --color-on-secondary-fixed-variant: #38485d;
+  --color-on-background: #dae2fd;
+  --color-secondary-container: #3a4a5f;
+  --color-tertiary-fixed: #6bff8f;
+  --color-outline: #909097;
+  --color-surface-container-highest: #2d3449;
+  --color-on-tertiary: #003915;
+  --color-primary-fixed: #c4e7ff;
+  --color-on-tertiary-container: #009542;
+  --color-surface-bright: #31394d;
+  --color-inverse-primary: #00668a;
+  --color-surface-dim: #0b1326;
+  --color-inverse-on-surface: #283044;
+  --color-on-error: #690005;
+  --color-error: #ffb4ab;
+  --color-secondary: #b7c8e1;
+  --color-surface: #0b1326;
+  --color-on-surface: #dae2fd;
+  --color-on-error-container: #ffdad6;
+  --color-on-primary: #00354a;
+  --color-outline-variant: #45464d;
+  --color-surface-container-low: #131b2e;
+  --color-error-container: #93000a;
+  --color-secondary-fixed: #d3e4fe;
+  --color-surface-tint: #7bd0ff;
+  --color-primary-fixed-dim: #7bd0ff;
+  --color-secondary-fixed-dim: #b7c8e1;
+
+  --font-headline: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-label: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+/* Glassmorphism */
+.glass-panel {
+  background: rgba(45, 52, 73, 0.6);
+  backdrop-filter: blur(12px);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0b1326; }
+::-webkit-scrollbar-thumb { background: #2d3449; border-radius: 2px; }
+
+/* 3D Flashcard */
+.perspective-1000 { perspective: 1000px; }
+.preserve-3d { transform-style: preserve-3d; }
+.backface-hidden { backface-visibility: hidden; }
+.rotate-y-180 { transform: rotateY(180deg); }
+
+/* Animations */
+@keyframes packetMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(var(--travel-distance, 300px)); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-packet { animation: packetMove var(--duration, 2s) linear forwards; }
+.animate-fade-in { animation: fadeInUp 0.5s ease-out forwards; }
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  font-family: var(--font-body);
+  min-height: 100vh;
+}
+
+/* Theme Overrides via Filters for 1-click Restyling */
+html[data-theme="light"] {
+  filter: invert(1) hue-rotate(180deg) brightness(1.05) contrast(0.95);
+  background-color: white; /* Prevent dark edge bleeding */
+}
+html[data-theme="light"] img,
+html[data-theme="light"] video,
+html[data-theme="light"] canvas {
+  filter: invert(1) hue-rotate(180deg); /* Re-invert media back to normal */
+}
+
+/* Pure AMOLED Dark Mode vs the "Original" Navy/Slate tint */
+html[data-theme="dark"] {
+  filter: grayscale(0.4) contrast(1.1) brightness(0.85);
+  background-color: black;
+}

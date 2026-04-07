@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Transport Layer - The Kinetic Network</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&amp;family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-lowest": "#060e20",
+            "on-tertiary-fixed-variant": "#005321",
+            "tertiary": "#4ae176",
+            "surface-variant": "#2d3449",
+            "primary": "#7bd0ff",
+            "inverse-surface": "#dae2fd",
+            "on-secondary": "#213145",
+            "on-secondary-container": "#a9bad3",
+            "on-secondary-fixed": "#0b1c30",
+            "surface-container": "#171f33",
+            "on-primary-fixed-variant": "#004c69",
+            "background": "#0b1326",
+            "tertiary-container": "#001d07",
+            "surface-container-high": "#222a3d",
+            "on-primary-container": "#008abb",
+            "tertiary-fixed-dim": "#4ae176",
+            "on-primary-fixed": "#001e2c",
+            "on-tertiary-fixed": "#002109",
+            "on-surface-variant": "#c6c6cd",
+            "primary-container": "#001a27",
+            "on-secondary-fixed-variant": "#38485d",
+            "on-background": "#dae2fd",
+            "secondary-container": "#3a4a5f",
+            "tertiary-fixed": "#6bff8f",
+            "outline": "#909097",
+            "surface-container-highest": "#2d3449",
+            "on-tertiary": "#003915",
+            "primary-fixed": "#c4e7ff",
+            "on-tertiary-container": "#009542",
+            "surface-bright": "#31394d",
+            "inverse-primary": "#00668a",
+            "surface-dim": "#0b1326",
+            "inverse-on-surface": "#283044",
+            "on-error": "#690005",
+            "error": "#ffb4ab",
+            "secondary": "#b7c8e1",
+            "surface": "#0b1326",
+            "on-surface": "#dae2fd",
+            "on-error-container": "#ffdad6",
+            "on-primary": "#00354a",
+            "outline-variant": "#45464d",
+            "surface-container-low": "#131b2e",
+            "error-container": "#93000a",
+            "secondary-fixed": "#d3e4fe",
+            "surface-tint": "#7bd0ff",
+            "primary-fixed-dim": "#7bd0ff",
+            "secondary-fixed-dim": "#b7c8e1"
+          },
+          fontFamily: {
+            "headline": ["Space Grotesk"],
+            "body": ["Inter"],
+            "label": ["Space Grotesk"]
+          },
+          borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #2d3449; border-radius: 10px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-6 py-3 bg-[#0b1326] fixed top-0 z-50">
+<div class="text-xl font-black text-[#7bd0ff] tracking-tighter uppercase font-['Space_Grotesk']">
+      The Kinetic Network
+    </div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-400 font-medium hover:text-white transition-colors duration-200 text-sm" href="#">Docs</a>
+<a class="text-slate-400 font-medium hover:text-white transition-colors duration-200 text-sm" href="#">Help</a>
+<a class="text-slate-400 font-medium hover:text-white transition-colors duration-200 text-sm" href="#">Community</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<input class="bg-surface-container border-none text-xs px-4 py-2 w-64 rounded-lg focus:ring-1 focus:ring-primary" placeholder="Search protocol documentation..." type="text"/>
+</div>
+<button class="text-[#7bd0ff] hover:text-white transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="text-[#7bd0ff] hover:text-white transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="flex flex-col h-full fixed left-0 top-0 z-40 bg-[#131b2e] w-64 pt-16 shadow-2xl shadow-black/20">
+<div class="px-6 py-8 border-b border-white/5">
+<h2 class="text-lg font-bold text-white mb-1">Lab Explorer</h2>
+<p class="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Active: Transport Layer</p>
+</div>
+<nav class="flex-1 overflow-y-auto py-4">
+<div class="px-4 mb-2">
+<p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest px-2 mb-2">Modules</p>
+<div class="space-y-1">
+<div class="flex items-center gap-3 px-3 py-2 text-slate-400 font-['Inter'] text-sm font-medium uppercase tracking-widest hover:bg-[#171f33]/50 hover:translate-x-1 transition-all duration-200 cursor-pointer">
+<span class="material-symbols-outlined text-lg">hub</span>Fundamentals
+          </div>
+<div class="flex items-center gap-3 px-3 py-2 text-slate-400 font-['Inter'] text-sm font-medium uppercase tracking-widest hover:bg-[#171f33]/50 hover:translate-x-1 transition-all duration-200 cursor-pointer">
+<span class="material-symbols-outlined text-lg">router</span>Routing
+          </div>
+<div class="flex items-center gap-3 px-3 py-3 bg-[#171f33] text-[#7bd0ff] border-r-4 border-[#7bd0ff] font-['Inter'] text-sm font-medium uppercase tracking-widest cursor-pointer">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">swap_calls</span>Transport
+          </div>
+<div class="flex items-center gap-3 px-3 py-2 text-slate-400 font-['Inter'] text-sm font-medium uppercase tracking-widest hover:bg-[#171f33]/50 hover:translate-x-1 transition-all duration-200 cursor-pointer">
+<span class="material-symbols-outlined text-lg">language</span>Application
+          </div>
+<div class="flex items-center gap-3 px-3 py-2 text-slate-400 font-['Inter'] text-sm font-medium uppercase tracking-widest hover:bg-[#171f33]/50 hover:translate-x-1 transition-all duration-200 cursor-pointer">
+<span class="material-symbols-outlined text-lg">layers</span>Network Layer
+          </div>
+</div>
+</div>
+</nav>
+<div class="p-4 bg-surface-container-lowest mt-auto">
+<button class="w-full bg-primary-container text-primary font-bold py-3 text-xs uppercase tracking-tighter hover:bg-primary hover:text-on-primary transition-colors">
+        Start Simulation
+      </button>
+</div>
+<div class="p-4 border-t border-white/5 space-y-1">
+<div class="flex items-center gap-3 px-3 py-2 text-slate-400 text-xs font-bold uppercase tracking-widest cursor-pointer hover:text-white">
+<span class="material-symbols-outlined text-lg">settings</span>Settings
+      </div>
+<div class="flex items-center gap-3 px-3 py-2 text-slate-400 text-xs font-bold uppercase tracking-widest cursor-pointer hover:text-white">
+<span class="material-symbols-outlined text-lg">logout</span>Logout
+      </div>
+</div>
+</aside>
+<!-- Main Content Stage -->
+<main class="ml-64 pt-16 min-h-screen bg-surface flex flex-col">
+<!-- Hero Header -->
+<section class="px-12 py-10 bg-surface-dim">
+<div class="flex flex-col md:flex-row justify-between items-end gap-6">
+<div class="max-w-3xl">
+<span class="text-[10px] text-primary font-black uppercase tracking-[0.2em] mb-4 block">L4 PROTOCOLS</span>
+<h1 class="text-6xl font-headline font-black text-on-surface tracking-tighter leading-none mb-6">TCP 3-Way Handshake &amp; Sliding Window</h1>
+<p class="text-lg text-on-secondary-container font-light leading-relaxed max-w-2xl">
+            Explore the mechanisms of reliability. Visualize how Transmission Control Protocol establishes connections and regulates data flow through dynamic windowing.
+          </p>
+</div>
+<div class="flex items-center gap-4 pb-2">
+<div class="h-16 w-[1px] bg-outline-variant/30 hidden lg:block"></div>
+<div class="text-right">
+<p class="text-[10px] font-bold text-slate-500 uppercase">Current Phase</p>
+<p class="text-xl font-headline font-bold text-tertiary">ESTABLISHED</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Lab Canvas -->
+<section class="flex-1 px-12 pb-12 grid grid-cols-12 gap-8">
+<!-- Simulation Stage -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-6">
+<div class="bg-surface-container relative rounded-xl overflow-hidden aspect-video shadow-2xl flex flex-col">
+<!-- Glass Control Bar -->
+<div class="absolute top-6 left-1/2 -translate-x-1/2 z-30 bg-surface-variant/60 backdrop-blur-xl px-6 py-3 rounded-full flex items-center gap-6 border border-white/10">
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-tertiary-fixed text-on-tertiary-fixed hover:translate-y-[-2px] transition-transform shadow-lg active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-secondary-container text-on-secondary-container hover:translate-y-[-2px] transition-transform active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">pause</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-error-container text-on-error-container hover:translate-y-[-2px] transition-transform active:scale-95">
+<span class="material-symbols-outlined">refresh</span>
+</button>
+</div>
+<div class="h-6 w-[1px] bg-white/10"></div>
+<div class="flex items-center gap-4">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Speed</span>
+<input class="accent-primary h-1 w-24 bg-surface-container-highest rounded-full appearance-none" type="range"/>
+</div>
+<div class="h-6 w-[1px] bg-white/10"></div>
+<button class="flex items-center gap-2 bg-error text-on-error px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-tighter hover:bg-opacity-90 transition-all">
+<span class="material-symbols-outlined text-sm">error</span> Simulate Drop
+            </button>
+</div>
+<!-- Visual Stage Content -->
+<div class="flex-1 relative p-12 flex items-center justify-between">
+<!-- Client Node -->
+<div class="flex flex-col items-center gap-4 z-10">
+<div class="w-32 h-32 rounded-2xl bg-surface-container-high flex flex-col items-center justify-center border-t border-white/10 shadow-xl">
+<span class="material-symbols-outlined text-4xl text-primary mb-2">laptop_mac</span>
+<span class="text-[10px] font-bold text-primary tracking-widest uppercase">Client Host</span>
+<span class="mono text-[10px] text-slate-500">192.168.1.50</span>
+</div>
+<!-- Sequence Indicators -->
+<div class="w-full bg-surface-container-lowest p-3 rounded-lg flex flex-col gap-1 border border-white/5">
+<div class="flex justify-between text-[8px] font-bold text-slate-500 uppercase">
+<span>Seq Num</span>
+<span class="text-primary">1001</span>
+</div>
+<div class="h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-1/3 h-full bg-primary"></div>
+</div>
+</div>
+</div>
+<!-- The Wire -->
+<div class="absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-primary/20 via-on-primary-container/40 to-primary/20 -translate-y-1/2 opacity-30"></div>
+<!-- Floating Packet (Handshake Phase) -->
+<div class="absolute left-1/3 top-[45%] z-20">
+<div class="bg-surface-container-highest border border-primary/40 px-4 py-2 rounded-lg shadow-2xl flex flex-col items-center animate-pulse">
+<span class="text-[10px] font-bold text-primary uppercase mb-1">SYN Packet</span>
+<div class="flex gap-2">
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-[8px] font-bold">SEQ: 1000</span>
+<span class="bg-on-surface-variant/10 text-on-surface-variant px-2 py-0.5 rounded text-[8px] font-bold">CTL: SYN</span>
+</div>
+</div>
+</div>
+<!-- Sliding Window Visualization (Lower Section) -->
+<div class="absolute bottom-12 left-1/2 -translate-x-1/2 w-4/5 h-20 bg-surface-container-low rounded-xl border border-white/5 p-4 flex flex-col justify-between">
+<div class="flex justify-between items-center mb-1">
+<span class="text-[10px] font-bold text-slate-500 uppercase">Transmission Window (Size: 4)</span>
+<span class="text-[10px] font-bold text-tertiary uppercase">Flow Controlled</span>
+</div>
+<div class="flex gap-2 flex-1">
+<div class="flex-1 bg-tertiary/20 border border-tertiary/30 rounded flex items-center justify-center text-[10px] font-bold text-tertiary">ACKed</div>
+<div class="flex-1 bg-tertiary/20 border border-tertiary/30 rounded flex items-center justify-center text-[10px] font-bold text-tertiary">ACKed</div>
+<div class="flex-1 bg-primary/20 border-2 border-primary rounded flex items-center justify-center text-[10px] font-bold text-primary">Sent</div>
+<div class="flex-1 bg-primary/20 border-2 border-primary rounded flex items-center justify-center text-[10px] font-bold text-primary">Sent</div>
+<div class="flex-1 bg-surface-container-highest border border-white/5 rounded flex items-center justify-center text-[10px] font-bold text-slate-500">Ready</div>
+<div class="flex-1 bg-surface-container-highest border border-white/5 rounded flex items-center justify-center text-[10px] font-bold text-slate-500">Ready</div>
+</div>
+</div>
+<!-- Server Node -->
+<div class="flex flex-col items-center gap-4 z-10">
+<div class="w-32 h-32 rounded-2xl bg-surface-container-high flex flex-col items-center justify-center border-t border-white/10 shadow-xl">
+<span class="material-symbols-outlined text-4xl text-tertiary mb-2">dns</span>
+<span class="text-[10px] font-bold text-tertiary tracking-widest uppercase">Target Server</span>
+<span class="mono text-[10px] text-slate-500">10.0.0.122</span>
+</div>
+<div class="w-full bg-surface-container-lowest p-3 rounded-lg flex flex-col gap-1 border border-white/5">
+<div class="flex justify-between text-[8px] font-bold text-slate-500 uppercase">
+<span>Ack Expected</span>
+<span class="text-tertiary">1002</span>
+</div>
+<div class="h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-2/3 h-full bg-tertiary"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Explanation Grid -->
+<div class="grid grid-cols-2 gap-6">
+<div class="bg-surface-container p-6 rounded-xl border border-white/5">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary">handshake</span>
+<h3 class="text-lg font-headline font-bold text-on-surface">The 3-Way Handshake</h3>
+</div>
+<ul class="space-y-4">
+<li class="flex gap-4">
+<span class="text-primary font-black text-sm">01.</span>
+<p class="text-sm text-on-secondary-container leading-relaxed"><strong class="text-on-surface">SYN:</strong> Client sends a synchronize sequence number packet to the server to initiate connection.</p>
+</li>
+<li class="flex gap-4">
+<span class="text-primary font-black text-sm">02.</span>
+<p class="text-sm text-on-secondary-container leading-relaxed"><strong class="text-on-surface">SYN-ACK:</strong> Server acknowledges the request and sends its own sequence number back.</p>
+</li>
+<li class="flex gap-4">
+<span class="text-primary font-black text-sm">03.</span>
+<p class="text-sm text-on-secondary-container leading-relaxed"><strong class="text-on-surface">ACK:</strong> Client sends final acknowledgement. Connection is now established.</p>
+</li>
+</ul>
+</div>
+<div class="bg-surface-container p-6 rounded-xl border border-white/5">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-tertiary">window</span>
+<h3 class="text-lg font-headline font-bold text-on-surface">Sliding Window Logic</h3>
+</div>
+<p class="text-sm text-on-secondary-container leading-relaxed mb-4">
+              Instead of waiting for an ACK for every single packet, TCP sends a "window" of packets. This maximizes throughput by utilizing bandwidth while waiting for confirmations.
+            </p>
+<div class="bg-surface-container-lowest p-3 rounded-lg border border-white/5">
+<p class="text-[10px] font-bold text-slate-500 uppercase mb-2">Efficiency Metric</p>
+<div class="flex items-center gap-2">
+<div class="flex-1 h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-[78%] h-full bg-gradient-to-r from-tertiary to-primary"></div>
+</div>
+<span class="text-xs font-black text-on-surface">+78%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Panel: Data Inspector -->
+<aside class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<!-- Live Packet Log -->
+<div class="flex-1 bg-surface-container-low rounded-xl flex flex-col overflow-hidden border border-white/5">
+<div class="px-6 py-4 bg-surface-container-high flex justify-between items-center border-b border-white/5">
+<h3 class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Live Packet Inspector</h3>
+<span class="flex h-2 w-2 rounded-full bg-tertiary animate-pulse"></span>
+</div>
+<div class="flex-1 overflow-y-auto p-4 custom-scrollbar space-y-2">
+<!-- Log Entry -->
+<div class="bg-surface-container-highest/40 p-3 rounded border-l-2 border-primary">
+<div class="flex justify-between items-center mb-1">
+<span class="text-[9px] font-black text-primary uppercase">OUTGOING [SYN]</span>
+<span class="mono text-[8px] text-slate-500">14:22:01.004</span>
+</div>
+<p class="mono text-[10px] text-on-secondary-container">FLAGS: [S] SEQ: 1000 WIN: 64240</p>
+</div>
+<!-- Log Entry -->
+<div class="bg-surface-container-highest/40 p-3 rounded border-l-2 border-tertiary">
+<div class="flex justify-between items-center mb-1">
+<span class="text-[9px] font-black text-tertiary uppercase">INCOMING [SYN, ACK]</span>
+<span class="mono text-[8px] text-slate-500">14:22:01.012</span>
+</div>
+<p class="mono text-[10px] text-on-secondary-container">FLAGS: [S.] SEQ: 4200 ACK: 1001</p>
+</div>
+<!-- Log Entry -->
+<div class="bg-surface-container-highest/40 p-3 rounded border-l-2 border-primary">
+<div class="flex justify-between items-center mb-1">
+<span class="text-[9px] font-black text-primary uppercase">OUTGOING [ACK]</span>
+<span class="mono text-[8px] text-slate-500">14:22:01.015</span>
+</div>
+<p class="mono text-[10px] text-on-secondary-container">FLAGS: [.] ACK: 4201</p>
+</div>
+<!-- Packet Drop Entry -->
+<div class="bg-error/5 p-3 rounded border-l-2 border-error">
+<div class="flex justify-between items-center mb-1">
+<span class="text-[9px] font-black text-error uppercase">PACKET_LOSS</span>
+<span class="mono text-[8px] text-slate-500">14:22:04.982</span>
+</div>
+<p class="mono text-[10px] text-on-error-container">ERR: TIMEOUT_EXCEEDED (RETRANSMITTING SEQ: 1005)</p>
+</div>
+</div>
+</div>
+<!-- Protocol State Matrix -->
+<div class="bg-surface-container p-6 rounded-xl border border-white/5 space-y-4">
+<h3 class="text-xs font-black uppercase tracking-widest text-on-surface-variant">Session Parameters</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-lowest p-3 rounded">
+<p class="text-[8px] font-bold text-slate-500 uppercase mb-1">MTU Size</p>
+<p class="text-sm font-bold text-on-surface">1500 <span class="text-[10px] text-slate-500">bytes</span></p>
+</div>
+<div class="bg-surface-container-lowest p-3 rounded">
+<p class="text-[8px] font-bold text-slate-500 uppercase mb-1">MSS</p>
+<p class="text-sm font-bold text-on-surface">1460 <span class="text-[10px] text-slate-500">bytes</span></p>
+</div>
+<div class="bg-surface-container-lowest p-3 rounded">
+<p class="text-[8px] font-bold text-slate-500 uppercase mb-1">RTT (Avg)</p>
+<p class="text-sm font-bold text-tertiary">14ms</p>
+</div>
+<div class="bg-surface-container-lowest p-3 rounded">
+<p class="text-[8px] font-bold text-slate-500 uppercase mb-1">Congestion Win</p>
+<p class="text-sm font-bold text-primary">10 <span class="text-[10px] text-slate-500">packets</span></p>
+</div>
+</div>
+</div>
+<!-- Flashcard CTA -->
+<div class="bg-gradient-to-br from-primary/10 to-on-primary-container/20 p-6 rounded-xl border border-primary/20 relative overflow-hidden group cursor-pointer">
+<div class="relative z-10">
+<h4 class="text-sm font-black text-primary uppercase tracking-tighter mb-2">Review Module</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed mb-4">Master TCP concepts with our precision flashcard deck.</p>
+<button class="flex items-center gap-2 text-primary text-xs font-bold uppercase hover:gap-4 transition-all">
+              Practice Now <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<span class="material-symbols-outlined absolute -bottom-4 -right-4 text-8xl text-primary/5 group-hover:rotate-12 transition-transform">style</span>
+</div>
+</aside>
+</section>
+</main>
+<!-- Interaction Floating Hint -->
+<div class="fixed bottom-8 right-8 z-50">
+<div class="bg-surface-container-highest px-4 py-3 rounded-full shadow-2xl border border-white/10 flex items-center gap-3">
+<span class="flex h-2 w-2 rounded-full bg-primary"></span>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Simulation Active: Sliding Window Phase</p>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Kinetic Network | Networking Flashcards</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-lowest": "#060e20",
+                        "on-tertiary-fixed-variant": "#005321",
+                        "tertiary": "#4ae176",
+                        "surface-variant": "#2d3449",
+                        "primary": "#7bd0ff",
+                        "inverse-surface": "#dae2fd",
+                        "on-secondary": "#213145",
+                        "on-secondary-container": "#a9bad3",
+                        "on-secondary-fixed": "#0b1c30",
+                        "surface-container": "#171f33",
+                        "on-primary-fixed-variant": "#004c69",
+                        "background": "#0b1326",
+                        "tertiary-container": "#001d07",
+                        "surface-container-high": "#222a3d",
+                        "on-primary-container": "#008abb",
+                        "tertiary-fixed-dim": "#4ae176",
+                        "on-primary-fixed": "#001e2c",
+                        "on-tertiary-fixed": "#002109",
+                        "on-surface-variant": "#c6c6cd",
+                        "primary-container": "#001a27",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-background": "#dae2fd",
+                        "secondary-container": "#3a4a5f",
+                        "tertiary-fixed": "#6bff8f",
+                        "outline": "#909097",
+                        "surface-container-highest": "#2d3449",
+                        "on-tertiary": "#003915",
+                        "primary-fixed": "#c4e7ff",
+                        "on-tertiary-container": "#009542",
+                        "surface-bright": "#31394d",
+                        "inverse-primary": "#00668a",
+                        "surface-dim": "#0b1326",
+                        "inverse-on-surface": "#283044",
+                        "on-error": "#690005",
+                        "error": "#ffb4ab",
+                        "secondary": "#b7c8e1",
+                        "surface": "#0b1326",
+                        "on-surface": "#dae2fd",
+                        "on-error-container": "#ffdad6",
+                        "on-primary": "#00354a",
+                        "outline-variant": "#45464d",
+                        "surface-container-low": "#131b2e",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-tint": "#7bd0ff",
+                        "primary-fixed-dim": "#7bd0ff",
+                        "secondary-fixed-dim": "#b7c8e1"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .preserve-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        .flashcard-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Custom scrollbar for terminal-style areas */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0b1326;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2d3449;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30 min-h-screen flex">
+<!-- SideNavBar (Shared Component) -->
+<aside class="flex flex-col h-full fixed left-0 top-0 z-40 bg-[#131b2e] dark:bg-[#131b2e] w-64 shadow-2xl shadow-black/20 font-['Inter'] text-sm font-medium uppercase tracking-widest hidden md:flex">
+<div class="p-6">
+<div class="text-lg font-bold text-white mb-1">Lab Explorer</div>
+<div class="text-[10px] text-primary tracking-[0.2em] opacity-80">Active: Routing Protocols</div>
+</div>
+<nav class="flex-1 px-4 space-y-2 mt-4">
+<div class="flex items-center gap-3 p-3 text-slate-400 hover:bg-[#171f33]/50 hover:translate-x-1 transition-all duration-200 cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span>Fundamentals</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-slate-400 hover:bg-[#171f33]/50 hover:translate-x-1 transition-all duration-200 cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined" data-icon="router">router</span>
+<span>Routing</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-slate-400 hover:bg-[#171f33]/50 hover:translate-x-1 transition-all duration-200 cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined" data-icon="swap_calls">swap_calls</span>
+<span>Transport</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-slate-400 hover:bg-[#171f33]/50 hover:translate-x-1 transition-all duration-200 cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined" data-icon="language">language</span>
+<span>Application</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-slate-400 hover:bg-[#171f33]/50 hover:translate-x-1 transition-all duration-200 cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+<span>Network Layer</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-slate-400 hover:bg-[#171f33]/50 hover:translate-x-1 transition-all duration-200 cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+<span>Security</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-[#171f33] text-[#7bd0ff] border-r-4 border-[#7bd0ff] hover:translate-x-1 transition-all duration-200 cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined" data-icon="style">style</span>
+<span>Flashcards</span>
+</div>
+</nav>
+<div class="p-6 bg-surface-container-lowest/50">
+<button class="w-full py-3 bg-primary text-on-primary font-bold rounded-lg text-xs tracking-widest hover:brightness-110 active:scale-95 transition-all">
+                Start Simulation
+            </button>
+</div>
+<div class="p-4 border-t border-white/5 space-y-1">
+<div class="flex items-center gap-3 p-2 text-slate-400 hover:text-white cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="settings">settings</span>
+<span class="text-xs">Settings</span>
+</div>
+<div class="flex items-center gap-3 p-2 text-slate-400 hover:text-white cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
+<span class="text-xs">Logout</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 flex flex-col min-h-screen relative overflow-hidden">
+<!-- TopNavBar (Shared Component) -->
+<header class="flex justify-between items-center w-full px-6 py-3 bg-[#0b1326] sticky top-0 z-30">
+<div class="text-xl font-black text-[#7bd0ff] tracking-tighter uppercase font-['Space_Grotesk']">
+                The Kinetic Network
+            </div>
+<div class="hidden md:flex items-center gap-8 font-['Space_Grotesk'] font-bold tracking-tight">
+<a class="text-slate-400 font-medium hover:text-white transition-colors duration-200" href="#">Docs</a>
+<a class="text-slate-400 font-medium hover:text-white transition-colors duration-200" href="#">Help</a>
+<a class="text-slate-400 font-medium hover:text-white transition-colors duration-200" href="#">Community</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-[#7bd0ff] active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="p-2 text-[#7bd0ff] active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Canvas Stage -->
+<section class="flex-1 p-6 md:p-12 max-w-6xl mx-auto w-full">
+<!-- Hero Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+<div>
+<h1 class="text-5xl md:text-7xl font-black font-headline tracking-tighter text-white uppercase leading-none mb-4">
+                        Flashcards
+                    </h1>
+<p class="text-on-secondary-container max-w-lg font-body text-lg">
+                        Master networking concepts through active recall. Technical depth focused on industrial protocols.
+                    </p>
+</div>
+<div class="flex flex-col gap-2 items-end">
+<div class="flex items-center justify-between w-full md:w-64 mb-1">
+<span class="text-[10px] uppercase font-bold tracking-widest text-primary">Mastery Progress</span>
+<span class="text-xs font-mono text-tertiary">42%</span>
+</div>
+<div class="w-full md:w-64 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary shadow-[0_0_12px_rgba(74,225,118,0.4)]" style="width: 42%;"></div>
+</div>
+</div>
+</div>
+<!-- Bento Grid Control Bar -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+<!-- Filter Section -->
+<div class="md:col-span-3 flex flex-wrap gap-2 p-4 bg-surface-container-low rounded-xl">
+<button class="px-4 py-2 rounded bg-primary text-on-primary text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+                        All Categories
+                    </button>
+<button class="px-4 py-2 rounded bg-surface-container-highest text-on-surface-variant text-xs font-bold uppercase tracking-wider hover:bg-surface-variant transition-colors">
+                        Fundamentals
+                    </button>
+<button class="px-4 py-2 rounded bg-surface-container-highest text-on-surface-variant text-xs font-bold uppercase tracking-wider hover:bg-surface-variant transition-colors">
+                        Routing
+                    </button>
+<button class="px-4 py-2 rounded bg-surface-container-highest text-on-surface-variant text-xs font-bold uppercase tracking-wider hover:bg-surface-variant transition-colors">
+                        TCP/IP
+                    </button>
+<button class="px-4 py-2 rounded bg-surface-container-highest text-on-surface-variant text-xs font-bold uppercase tracking-wider hover:bg-surface-variant transition-colors">
+                        Security
+                    </button>
+</div>
+<!-- Action Controls -->
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-xl">
+<button class="p-2 text-on-surface hover:bg-surface-container-highest rounded transition-colors group">
+<span class="material-symbols-outlined group-hover:rotate-45 transition-transform" data-icon="shuffle">shuffle</span>
+</button>
+<div class="h-6 w-[1px] bg-outline-variant/30"></div>
+<button class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="restart_alt">restart_alt</span>
+                        Reset Deck
+                    </button>
+</div>
+</div>
+<!-- Main Interactive Card Stage -->
+<div class="relative flex flex-col items-center">
+<!-- The 3D Flashcard Container -->
+<div class="perspective-1000 w-full max-w-3xl h-[450px] group cursor-pointer">
+<!-- This div flips when JS is applied, for demo we rely on CSS hover states if needed, but structure is here -->
+<div class="flashcard-inner preserve-3d relative w-full h-full shadow-2xl transition-transform duration-700">
+<!-- Front Side -->
+<div class="backface-hidden absolute inset-0 bg-surface-container-low border border-outline-variant/10 rounded-2xl p-8 md:p-12 flex flex-col items-center justify-center text-center overflow-hidden">
+<!-- Background Accent -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="z-10 flex flex-col items-center">
+<div class="px-3 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-bold tracking-widest uppercase mb-6">
+                                    Routing Protocols
+                                </div>
+<h2 class="text-3xl md:text-5xl font-headline font-bold text-white leading-tight mb-8">
+                                    Explain the core difference between OSPF and BGP in terms of algorithm usage.
+                                </h2>
+<div class="flex items-center gap-2 text-on-surface-variant/60 font-mono text-sm">
+<span class="material-symbols-outlined text-sm" data-icon="touch_app">touch_app</span>
+                                    Tap to reveal answer
+                                </div>
+</div>
+<!-- Decorative Grid -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(circle, #fff 1px, transparent 1px); background-size: 30px 30px;"></div>
+</div>
+<!-- Back Side (Answer) -->
+<div class="backface-hidden rotate-y-180 absolute inset-0 bg-surface-container rounded-2xl p-8 md:p-12 flex flex-col overflow-hidden">
+<div class="mb-6 flex justify-between items-center">
+<span class="text-[10px] font-bold tracking-widest uppercase text-tertiary">Correct Logic</span>
+<span class="text-xs font-mono text-on-surface-variant">Card 12/48</span>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar pr-4">
+<p class="text-xl md:text-2xl font-body text-on-surface leading-relaxed mb-6">
+                                    OSPF (Open Shortest Path First) is an <strong class="text-primary">IGP</strong> that uses the <strong class="text-primary">Dijkstra</strong> SPF algorithm for intra-domain routing.
+                                </p>
+<p class="text-xl md:text-2xl font-body text-on-surface leading-relaxed">
+                                    BGP (Border Gateway Protocol) is an <strong class="text-primary">EGP</strong> that uses a <strong class="text-primary">Path-Vector</strong> algorithm focused on policies and AS hops rather than simple cost metrics.
+                                </p>
+</div>
+<div class="mt-8 pt-8 border-t border-outline-variant/20 flex flex-wrap gap-4">
+<div class="bg-surface-container-lowest p-3 rounded-lg flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+<span class="text-xs font-medium text-on-surface-variant">OSPF: Link-State</span>
+</div>
+<div class="bg-surface-container-lowest p-3 rounded-lg flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-xs font-medium text-on-surface-variant">BGP: Path-Vector</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Post-Reveal Controls (Bento Style) -->
+<div class="mt-12 w-full max-w-3xl grid grid-cols-1 md:grid-cols-2 gap-4">
+<button class="h-16 bg-error/10 border border-error/20 text-error rounded-xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:bg-error/20 transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+                        Review Later
+                    </button>
+<button class="h-16 bg-tertiary/10 border border-tertiary/20 text-tertiary rounded-xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:bg-tertiary/20 transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="check_circle" data-weight="fill">check_circle</span>
+                        Mark as Known
+                    </button>
+</div>
+<!-- Navigation Controls -->
+<div class="mt-8 flex items-center gap-6">
+<button class="w-12 h-12 rounded-full bg-surface-container-high border border-outline-variant/10 flex items-center justify-center text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="arrow_back_ios_new">arrow_back_ios_new</span>
+</button>
+<span class="font-mono text-sm tracking-widest text-on-surface-variant">12 / 48</span>
+<button class="w-12 h-12 rounded-full bg-surface-container-high border border-outline-variant/10 flex items-center justify-center text-on-surface hover:text-primary transition-colors shadow-lg shadow-primary/5">
+<span class="material-symbols-outlined" data-icon="arrow_forward_ios">arrow_forward_ios</span>
+</button>
+</div>
+</div>
+<!-- Stats/History Bento Footer -->
+<div class="mt-24 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-container-low p-6 rounded-2xl">
+<h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant mb-4">Today's Streak</h4>
+<div class="flex items-end gap-2">
+<span class="text-4xl font-headline font-bold text-white">14</span>
+<span class="text-xs font-bold text-tertiary mb-1 uppercase tracking-tighter">Days Consistent</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-2xl relative overflow-hidden">
+<h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant mb-4">Focus Area</h4>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="security">security</span>
+<div>
+<div class="text-white font-bold leading-tight uppercase">Network Security</div>
+<div class="text-[10px] text-on-secondary-container">8 cards pending review</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-2xl">
+<h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant mb-4">Difficulty Level</h4>
+<div class="flex gap-1">
+<div class="flex-1 h-1 bg-tertiary"></div>
+<div class="flex-1 h-1 bg-tertiary"></div>
+<div class="flex-1 h-1 bg-primary"></div>
+<div class="flex-1 h-1 bg-surface-container-highest"></div>
+<div class="flex-1 h-1 bg-surface-container-highest"></div>
+</div>
+<div class="mt-2 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Intermediate Lab Tech</div>
+</div>
+</div>
+</section>
+<!-- Visual Background Decorations -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 opacity-30">
+<div class="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full bg-primary/10 blur-[120px]"></div>
+<div class="absolute bottom-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-tertiary/5 blur-[100px]"></div>
+</div>
+</main>
+<!-- Mobile Bottom Navigation (Shared Component) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface-container-low border-t border-outline-variant/10 flex justify-around items-center h-16 px-4 z-50">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="text-[10px] font-bold uppercase">Labs</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" data-icon="style" data-weight="fill">style</span>
+<span class="text-[10px] font-bold uppercase">Cards</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+<span class="text-[10px] font-bold uppercase">Safe</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="text-[10px] font-bold uppercase">Profile</span>
+</button>
+</nav>
+<!-- Contextual FAB (Shared Logic) - Suppressed as per instructions for Details/Focused pages, but keeping internal actions clear -->
+</body></html>
